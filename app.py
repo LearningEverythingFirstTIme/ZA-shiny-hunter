@@ -176,9 +176,20 @@ def hunt_tracker_page():
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            # Pokemon selector
+            # Pokemon selector with search
             pokemon_names = [p['name'] for p in st.session_state.pokemon_list]
-            selected_pokemon_name = st.selectbox("Select Pokemon", pokemon_names)
+            
+            # Search/filter input
+            search_col, select_col = st.columns([1, 2])
+            with search_col:
+                pokemon_search = st.text_input("Search Pokemon", placeholder="Type to filter...")
+            with select_col:
+                # Filter list if search provided
+                if pokemon_search:
+                    filtered_names = [n for n in pokemon_names if pokemon_search.lower() in n.lower()]
+                else:
+                    filtered_names = pokemon_names
+                selected_pokemon_name = st.selectbox("Select Pokemon", filtered_names)
             selected_pokemon = next((p for p in st.session_state.pokemon_list if p['name'] == selected_pokemon_name), None)
         
         with col2:
