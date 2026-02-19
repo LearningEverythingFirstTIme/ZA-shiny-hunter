@@ -8,7 +8,7 @@ from database import (
     update_hunt_progress, get_hunt_progress, get_hunt_stats, reset_hunt, delete_shiny
 )
 from pokeapi import (
-    get_all_pokemon, get_pokemon_data, get_pokemon_sprite,
+    get_za_pokemon, get_pokemon_data, get_pokemon_sprite,
     get_types, HUNT_METHODS, get_recommended_method
 )
 
@@ -82,8 +82,8 @@ init_db()
 
 # Session state
 if 'pokemon_list' not in st.session_state:
-    with st.spinner('Loading Pokemon data from PokeAPI...'):
-        st.session_state.pokemon_list = get_all_pokemon()
+    with st.spinner('Loading Pokemon from Z-A Pokedex...'):
+        st.session_state.pokemon_list = get_za_pokemon()
 if 'show_shiny' not in st.session_state:
     st.session_state.show_shiny = False
 

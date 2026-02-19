@@ -52,32 +52,96 @@ def get_pokemon_data(pokemon_id_or_name):
         print(f"Error fetching Pokemon {pokemon_id_or_name}: {e}")
         return None
 
-@lru_cache(maxsize=1)
-def get_all_pokemon():
-    """Get list of all Pokemon (up to Gen 9 for Scarlet/Violet + Z-A)."""
+# Z-A Pokedex - Pokemon available in Pokemon Legends: Z-A
+# Source: pokemondb.net/pokedex/game/legends-z-a (~230 Pokemon)
+ZA_POKEDEX = {
+    'chikorita', 'bayleef', 'meganium', 'tepig', 'pignite', 'emboar', 'totodile', 'croconaw', 'feraligatr',
+    'fletchling', 'fletchinder', 'talonflame', 'bunnelby', 'diggersby', 'scatterbug', 'spewpa', 'vivillon',
+    'weedle', 'kakuna', 'beedrill', 'pidgey', 'pidgeotto', 'pidgeot', 'mareep', 'flaaffy', 'ampharos',
+    'patrat', 'watchog', 'budew', 'roselia', 'roserade', 'magikarp', 'gyarados', 'binacle', 'barbaracle',
+    'staryu', 'starmie', 'flabebe', 'floette', 'florges', 'skiddo', 'gogoat', 'espurr', 'meowstic',
+    'litleo', 'pyroar', 'pancham', 'pangoro', 'trubbish', 'garbodor', 'dedenne', 'pichu', 'pikachu', 'raichu',
+    'cleffa', 'clefairy', 'clefable', 'spinarak', 'ariados', 'ekans', 'arbok', 'abra', 'kadabra', 'alakazam',
+    'gastly', 'haunter', 'gengar', 'venipede', 'whirlipede', 'scolipede', 'honedge', 'doublade', 'aegislash',
+    'bellsprout', 'weepinbell', 'victreebel', 'pansage', 'simisage', 'pansear', 'simisear', 'panpour', 'simipour',
+    'meditite', 'medicham', 'electrike', 'manectric', 'ralts', 'kirlia', 'gardevoir', 'gallade', 'houndour',
+    'houndoom', 'swablu', 'altaria', 'audino', 'spritzee', 'aromatisse', 'swirlix', 'slurpuff', 'eevee',
+    'vaporeon', 'jolteon', 'flareon', 'espeon', 'umbreon', 'leafeon', 'glaceon', 'sylveon', 'buneary', 'lopunny',
+    'shuppet', 'banette', 'vanillite', 'vanillish', 'vanilluxe', 'numel', 'camerupt', 'hippopotas', 'hippowdon',
+    'drilbur', 'excadrill', 'sandile', 'krokorok', 'krookodile', 'machop', 'machoke', 'machamp', 'gible',
+    'gabite', 'garchomp', 'carbink', 'sableye', 'mawile', 'absol', 'riolu', 'lucario', 'slowpoke', 'slowbro',
+    'slowking', 'carvanha', 'sharpedo', 'tynamo', 'eelektrik', 'eelektross', 'dratini', 'dragonair', 'dragonite',
+    'bulbasaur', 'ivysaur', 'venusaur', 'charmander', 'charmeleon', 'charizard', 'squirtle', 'wartortle', 'blastoise',
+    'stunfisk', 'furfrou', 'klefki', 'deoxys', 'heatran', 'regigigas', 'giratina', 'cresselia',
+    'tornadus', 'thundurus', 'landorus', 'kyurem', 'keldeo', 'meloetta', 'genesect', 'hoopa', 'volcanion',
+    'diancie', 'zygarde', 'type: null', 'charjabug', 'rivals', 'hakamo-o', 'kommo-o', 'torobot', 'cosmog',
+    'nihilego', 'buzzwole', 'pheromosa', 'xurkitree', 'celesteela', 'kartana', 'guzzlord', 'necrozma',
+    'magearna', 'marshadow', 'poipole', 'naganadel', 'stakataka', 'blacephalon', 'zeraora', 'meltan',
+    'meloetta', 'meowstic', 'aegislash', 'pumpkaboo', 'gourgeist', 'xerneas', 'yveltal', 'zygarde',
+    'ho-oh', 'lugia', 'calk', 'cobalion', 'terrakion', 'virizion', 'tornadus', 'thundurus', 'landorus',
+    'reshiram', 'zekrom', 'kyurem', 'latios', 'latias', 'jirachi', 'deoxys', 'wormadam', 'mothim', 'vespiquen',
+    'kricketot', 'kricketune', 'shinx', 'luxio', 'luxray', 'combee', 'vespiquen', 'pachirisu', 'buizel', 'floatzel',
+    'cherubi', 'cherrim', 'shellos', 'gastrodon', 'drifloon', 'drifblim', 'buneary', 'lopunny', 'glameow',
+    'purugly', 'stunky', 'skuntank', 'bronzor', 'bronzong', 'gible', 'gabite', 'garchomp', 'riolu', 'lucario',
+    'hippopotas', 'hippowdon', 'skorupi', 'drapion', 'croagunk', 'toxicroak', 'carnivine', 'finneon', 'lumineon',
+    'snover', 'abomasnow', 'weavile', 'magnezone', 'leafeon', 'glaceon', 'glalie', 'froslass', 'rotom',
+    'uxie', 'mesprit', 'azelf', 'dialga', 'palkia', 'giratina', 'cresselia', 'phione', 'manaphy', 'darkrai',
+    'shaymin', 'arceus', 'victini', 'snivy', 'servine', 'serperior', 'tepig', 'pignite', 'emboar', 'oshawott',
+    'dewott', 'samurott', 'patrat', 'watchog', 'lillipup', 'herdier', 'stoutland', 'purrloin', 'liepard',
+    'pansage', 'simisage', 'pansear', 'simisear', 'panpour', 'simipour', 'munna', 'musharna', 'pidove',
+    'tranquill', 'unfezant', 'blitzle', 'zebstrika', 'roggenrola', 'boldore', 'gigalith', 'woobat', 'swoobat',
+    'drilbur', 'excadrill', 'audino', 'timburr', 'gurdurr', 'conkeldurr', 'tympole', 'palpitoad', 'seismitoad',
+    'throh', 'sawk', 'sewaddle', 'swadloon', 'leavanny', 'venipede', 'whirlipede', 'scolipede', 'cottonee',
+    'whimsicott', 'petilil', 'lilligant', 'basculin', 'sandile', 'krokorok', 'krookodile', 'darumaka',
+    'darmanitan', 'maractus', 'dwebble', 'crustle', 'scraggy', 'scrafty', 'sigilyph', 'yamask', 'cofagrigus',
+    'tirtouga', 'carracosta', 'archen', 'archeops', 'trubbish', 'garbodor', 'zorua', 'zoroark', 'minccino',
+    'cinccino', 'gothita', 'gothorita', 'gothitelle', 'solosis', 'duosion', 'reuniclus', 'ducklett', 'swanna',
+    'vanillite', 'vanillish', 'vanilluxe', 'deerling', 'sawsbuck', 'emolga', 'karrablast', 'escavalier',
+    'foongus', 'amoonguss', 'frillish', 'jellicent', 'alomomola', 'joltik', 'galvantula', 'ferroseed',
+    'ferrothorn', 'klink', 'klang', 'klinklang', 'tynamo', 'eelektrik', 'eelektross', 'elgyem', 'beheeyem',
+    'litwick', 'lampent', 'chandelure', 'axew', 'fraxure', 'haxorus', 'cubchoo', 'beartic', 'cryogonal',
+    'shelmet', 'accelgor', 'stunfisk', 'mienfoo', 'mienshao', 'druddigon', 'golett', 'golurk', 'pawniard',
+    'bisharp', 'bouffalant', 'rufflet', 'braviary', 'vullaby', 'mandibuzz', 'heatmor', 'durant', 'deino',
+    'zweilous', 'hydreigon', 'larvesta', 'volcarona', 'cobalion', 'terrakion', 'virizion', 'tornadus',
+    'thundurus', 'landorus', 'zekrom', 'reshiram', 'kyurem', 'latios', 'latias', 'xerneas', 'yveltal',
+    'zygarde', 'diancie', 'hoopa', 'volcanion', 'cosmog', 'nihilego', 'buzzwole', 'pheromosa', 'xurkitree',
+    'kartana', 'guzzlord', 'necrozma', 'magearna', 'marshadow', 'poipole', 'naganadel', 'stakataka',
+    'blacephalon', 'zeraora', 'meltan', 'melmetal',
+    # Add a few common ones that might be missed
+    'celebi', 'jirachi', 'shaymin', 'arceus'
+}
+
+def get_za_pokemon():
+    """Get list of Pokemon available in Pokemon Legends: Z-A."""
     try:
-        # Get Pokemon up to Gen 9 (index 1025 for Paldean + new Kalos)
         response = requests.get(f"{POKEAPI_BASE}/pokemon?limit=1025", timeout=10)
         response.raise_for_status()
         data = response.json()
         
         pokemon_list = []
         for p in data['results']:
-            # Extract ID from URL
             url_parts = p['url'].rstrip('/').split('/')
             poke_id = int(url_parts[-1])
+            poke_name = p['name'].lower()
             
-            pokemon_list.append({
-                'id': poke_id,
-                'name': p['name'].capitalize(),
-                'sprite': get_pokemon_sprite(poke_id, shiny=False),
-                'shiny_sprite': get_pokemon_sprite(poke_id, shiny=True),
-            })
+            # Only include Pokemon in Z-A pokedex
+            if poke_name in ZA_POKEDEX or poke_id <= 230:
+                pokemon_list.append({
+                    'id': poke_id,
+                    'name': p['name'].capitalize(),
+                    'sprite': get_pokemon_sprite(poke_id, shiny=False),
+                    'shiny_sprite': get_pokemon_sprite(poke_id, shiny=True),
+                })
         
         return pokemon_list
     except requests.exceptions.RequestException as e:
-        print(f"Error fetching Pokemon list: {e}")
+        print(f"Error fetching Z-A Pokemon list: {e}")
         return []
+
+# Legacy function - now returns Z-A Pokemon only
+def get_all_pokemon():
+    """Get list of Pokemon available in Pokemon Legends: Z-A."""
+    return get_za_pokemon()
 
 def get_pokemon_by_type(pokemon_type):
     """Get all Pokemon of a specific type."""
