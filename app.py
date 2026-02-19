@@ -383,25 +383,206 @@ def hunt_tips_page():
     st.title("💡 Hunt Tips")
     
     st.markdown("""
-    ### Shiny Hunting in Pokemon Legends: Z-A
+    ## Shiny Hunting in Pokemon Legends: Z-A
     
-    Pokemon Legends: Z-A is set in the Kalos region and uses different hunting methods than previous games.
-    **Note:** Breeding/Masuda method is NOT available in Z-A!
+    Welcome to the ultimate guide for shiny hunting in Pokemon Legends: Z-A! This page covers
+    everything you need to know about finding shiny Pokemon in Kalos.
+    
+    ⚠️ **Important:** Breeding and the Masuda method are NOT available in Z-A!
     """)
     
     st.markdown("---")
     
-    # Method explanations
-    st.subheader("📖 Hunting Methods")
-    
-    for method, description in HUNT_METHODS.items():
-        st.markdown(f"**{method.replace('_', ' ').title()}**")
-        st.markdown(f"_{description}_")
-        st.markdown("")
+    # Section 1: Shiny Basics
+    with st.expander("🎲 Understanding Shiny Odds", expanded=True):
+        st.markdown("""
+        ### Base Shiny Odds
+        - **Standard encounter:** 1 in ~4096 (affected by the Poké Radar in some games)
+        - **With Shiny Charm:** 1 in ~1365 (if available in Z-A)
+        - **With Lure:** 1 in ~2048 (multiplier varies by game)
+        
+        ### What Affects Shiny Rates in Z-A?
+        - **Mass Outbreaks:** Increased spawn rates for certain Pokemon
+        - **Tera Raids:** Different odds depending on star level
+        - **Camping/Random Encounters:** Standard base odds
+        - **Regional variants:** May have different odds
+        """)
     
     st.markdown("---")
     
-    # Per-Pokemon recommendations
+    # Section 2: Hunting Methods
+    with st.expander("🏃 Hunting Methods Explained", expanded=True):
+        
+        st.markdown("""
+        ### Respawn Method (Best for Z-A)
+        The most reliable method in Z-A for stationary Pokemon.
+        
+        **How it works:**
+        1. Find your target Pokemon
+        2. Weaken or defeat it (don't catch)
+        3. Use a method to force a respawn (fast travel, enter/exit building)
+        4. Repeat until shiny
+        
+        **Best for:** Boss Pokemon, story Pokemon, stationary legendaries
+        
+        ---
+        
+        ### Fast Travel Reset
+        Uses the game's fast travel system to respawn wild Pokemon.
+        
+        **How it works:**
+        1. Find an area with your target Pokemon
+        2. Save your game
+        3. Fast travel to a waypoint and back
+        4. Check if shiny spawned - if not, repeat
+        
+        **Best for:** Open area wild Pokemon, route camping
+        
+        ---
+        
+        ### Door Method
+        Enter and exit buildings to respawn nearby Pokemon.
+        
+        **How it works:**
+        1. Find building near Pokemon spawn
+        2. Enter building, check Pokemon
+        3. Exit - Pokemon will have respawned
+        4. Repeat
+        
+        **Best for:** City areas with many buildings (Lumiose City!)
+        
+        ---
+        
+        ### Special Scan / Photo Spot
+        In Z-A, use the camera to find rare spawns.
+        
+        **How it works:**
+        1. Explore with camera active
+        2. Look for Pokemon that react to the camera
+        3. These may have increased shiny odds
+        4. Great for finding version exclusives
+        
+        **Best for:** Finding rare spawns, photography enthusiasts
+        
+        ---
+        
+        ### Mass Outbreak Hunting
+        When a mass outbreak occurs, shiny rates may be boosted.
+        
+        **How it works:**
+        1. Monitor for mass outbreak notifications
+        2. Travel to the outbreak location
+        3. Defeat Pokemon to trigger respawns
+        4. Check each spawn for shininess
+        
+        **Best for:** Farming specific species quickly
+        """)
+    
+    st.markdown("---")
+    
+    # Section 3: Z-A Specific Tips
+    with st.expander("🌆 Kalos-Specific Strategies", expanded=True):
+        st.markdown("""
+        ### Lumiose City
+        The main hub of Z-A and a prime hunting location!
+        
+        **Hotspots:**
+        - **Prism Tower:** Rare spawns around the base
+        - **Café:** Interior and exterior spawns
+        - **North/South Boulevard:** Route Pokemon
+        - **Alleys:** Many buildings for door method
+        
+        **Tips:**
+        - Use the elevator to access different floors quickly
+        - Door method is extremely effective here
+        - Save near the Pokemon you want to hunt
+        
+        ---
+        
+        ### Route Tips
+        - **Route 4-7:** Good variety of Kalos natives
+        - **Route 8-12:** Water types near coastlines
+        - **Route 13+:** Higher-level Pokemon, more variety
+        - **Snowbelle City:** Ice types (when available)
+        
+        ---
+        
+        ### Legendary Hunting
+        Legendaries in Z-A require special strategies:
+        
+        1. **Save before EVERY encounter**
+        2. **Check if they're shiny before battling** (look at overworld sprite)
+        3. **Use Ace Trainer Pokemon for safe catching**
+        4. **Stock up on ultra balls and timer balls**
+        5. **Have a Pokemon with False Swipe and a status move**
+        """)
+    
+    st.markdown("---")
+    
+    # Section 4: Type-Based Recommendations
+    with st.expander("🔥 Type-Specific Hunting Tips", expanded=True):
+        st.markdown("""
+        ### Fire Types
+        - Found in volcanic areas and sunny routes
+        - Look for fire breathing from chimneys in Lumiose
+        - Some fire types appear at night
+        
+        ### Water Types
+        - Rivers and lakes have best variety
+        - Use fishing for guaranteed encounters
+        - Surfing Pokemon often spawn in unique forms
+        
+        ### Psychic Types
+        - Often appear in mysterious locations
+        - Some only appear after story progress
+        - Check near ancient ruins
+        
+        ### Fairy Types
+        - Kalos is home to many fairy types
+        - Look near flower fields and gardens
+        - Some are version-exclusive
+        
+        ### Dragon Types
+        - Rare and powerful - hunt when you see them!
+        - Often found in caves or remote areas
+        - Some only appear during specific weather
+        """)
+    
+    st.markdown("---")
+    
+    # Section 5: Efficiency Tips
+    with st.expander("⚡ Efficiency & Quality of Life", expanded=True):
+        st.markdown("""
+        ### Save Time
+        - **Always save before hunting** - never lose progress
+        - **Use quality headphones** - shiny sparkles have unique sounds
+        - **Use the bike** - faster travel = more encounters per hour
+        - **Set up a hunting spot** - find a safe place to save and repeat
+        
+        ### Reduce Fatigue
+        - Take breaks every hour
+        - Use the auto-save feature strategically
+        - Have a "hunting party" ready with proper abilities
+        - Consider using the "catch combo" equivalent if available
+        
+        ### Track Your Progress
+        - Use this app to log every hunt!
+        - Note encounter counts for future reference
+        - Track which methods work best for each Pokemon
+        
+        ---
+        
+        ### Common Mistakes to Avoid
+        1. **Not saving** - Always save before starting a hunt
+        2. **Catching too fast** - Check for shininess before throwing
+        3. **Ignoring sounds** - Shiny Pokemon have unique cry/sound effects
+        4. **Giving up too early** - Sometimes it takes thousands of encounters
+        5. **Not using the right party** - Bring False Swipe and status moves
+        """)
+    
+    st.markdown("---")
+    
+    # Section 6: Per-Pokemon Recommendations
     st.subheader("🎯 Recommended Methods by Pokemon")
     
     # Select a Pokemon
@@ -427,6 +608,30 @@ def hunt_tips_page():
                     st.markdown(f"✅ **{method.replace('_', ' ').title()}**")
                     st.markdown(f"   {HUNT_METHODS.get(method, 'Standard hunting method')}")
                     st.markdown("")
+    
+    st.markdown("---")
+    
+    # Section 7: Quick Reference
+    with st.expander("📋 Quick Reference Checklist", expanded=False):
+        st.markdown("""
+        ### Before You Hunt
+        - [ ] Save your game
+        - [ ] Prepare party (False Swipe, status moves, catching Pokemon)
+        - [ ] Stock up on balls and potions
+        - [ ] Find hunting spot
+        
+        ### During the Hunt
+        - [ ] Check every Pokemon for shininess
+        - [ ] Listen for unique sounds
+        - [ ] Watch for sparkle effects
+        - [ ] Keep track of encounter count in this app!
+        
+        ### After Catching a Shiny!
+        - [ ] Celebrate! 🎉
+        - [ ] Log it in this app
+        - [ ] Take screenshots for memories
+        - [ ] Decide: keep or trade?
+        """)
 
 def stats_page():
     """Show hunt statistics."""
