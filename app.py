@@ -209,12 +209,14 @@ def hunt_tracker_page():
         st.info("No active hunts. Start one above!")
         return
     
-    # Display hunts in a table
+    # Display hunts in a table with proper image rendering
+    from streamlit import column_config
+    
     hunt_data = []
     for hunt in hunts:
         sprite = get_pokemon_sprite(hunt['pokemon_id'], shiny=True)
         hunt_data.append({
-            "Sprite": f"![img]({sprite})",
+            "Sprite": sprite,
             "#": hunt['pokemon_id'],
             "Pokemon": hunt['pokemon_name'],
             "Method": hunt['method'],
@@ -224,7 +226,16 @@ def hunt_tracker_page():
         })
     
     df = pd.DataFrame(hunt_data)
-    st.dataframe(df, use_container_width=True, hide_index=True)
+    
+    # Configure columns to show images properly
+    st.dataframe(
+        df,
+        column_config={
+            "Sprite": column_config.ImageColumn("Sprite", width="small"),
+        },
+        use_container_width=True,
+        hide_index=True
+    )
     
     # Quick update section
     st.markdown("### ⚡ Quick Update")
